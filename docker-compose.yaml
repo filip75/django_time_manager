@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+  web:
+    build: .
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py seed_db && python manage.py runserver 0.0.0.0:8000"
+    container_name: projects
+    env_file:
+      - ./django.env
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
