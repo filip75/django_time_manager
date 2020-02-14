@@ -32,6 +32,8 @@ class Command(BaseCommand):
             Project.objects.create(name='project3'),
             Project.objects.create(name='project4')
         ]
+        for i in range(5, 105):
+            Project.objects.create(name=f'project{i}')
 
         User.objects.all().delete()
         users = []
@@ -74,9 +76,3 @@ class Command(BaseCommand):
                                  project=projects[1])
         TimeEntry.objects.create(start_time=random_date(), duration=random_timedelta(), user=users[2],
                                  project=projects[1])
-
-        # for _ in range(500):
-        #     s = random_date(datetime(year=2020, month=1, day=1), datetime(year=2020, month=1, day=1))
-        #     delta = random_timedelta(timedelta(days=400))
-        #     TimeEntry.objects.create(start_time=s, duration=delta, user=random.choice(users),
-        #                              project=random.choice(projects))

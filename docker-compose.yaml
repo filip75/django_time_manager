@@ -3,6 +3,11 @@ version: '3'
 services:
   db:
     image: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build: .
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py seed_db && python manage.py runserver 0.0.0.0:8000"
@@ -15,3 +20,15 @@ services:
       - "8000:8000"
     depends_on:
       - db
+
+#  front-react:
+#    container_name: front-react
+#    build:
+#      context: ./time-manager
+#      dockerfile: dockerfile
+#    ports:
+#      - "3000:3000"
+#    volumes:
+#      - ./time-manager:/app
+#    environment:
+#      - NODE_ENV=development

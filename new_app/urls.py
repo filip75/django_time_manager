@@ -14,8 +14,9 @@ urlpatterns = [
     path('users/<int:user>/projects/', views.UserProjects.as_view(), name='new-app-user-projects'),
     path('users/<int:user>/entries/', views.TimeEntriesListView.as_view(), name='new-app-user-entries'),
 
+    path('entries/', views.TimeEntriesListView.as_view(), name='new-app-entries'),
     path('projects/<int:project>/users/<int:user>/entries/', views.TimeEntriesListView.as_view(),
-         name='new-app-project-user-entries'),
+         name='new-app-project-user-entries')
 ]
 
 router = DefaultRouter()

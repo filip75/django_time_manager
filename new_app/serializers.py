@@ -1,14 +1,14 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from new_app.fields import ProjectUserEntryLink
+from new_app.fields import ProjectUserEntryLink, JsonDuration
 from new_app.models import TimeEntry, Project
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     projects = serializers.HyperlinkedRelatedField(read_only=True, view_name='new-app-user-projects', source='*',
                                                    lookup_url_kwarg='user')
-    worked_time = serializers.DurationField(read_only=True)
+    worked_time = JsonDuration(read_only=True)
     entries = serializers.HyperlinkedRelatedField(read_only=True, view_name='new-app-user-entries', source='*',
                                                   lookup_url_kwarg='user')
 
@@ -38,7 +38,7 @@ class ProjectOfUser(serializers.HyperlinkedModelSerializer):
 
 
 class ProjectSerializer(serializers.HyperlinkedModelSerializer):
-    worked_time = serializers.DurationField(read_only=True)
+    worked_time = JsonDuration(read_only=True)
     users = serializers.HyperlinkedRelatedField(read_only=True, view_name='new-app-project-users', source='*',
                                                 lookup_url_kwarg='project')
     entries = serializers.HyperlinkedRelatedField(read_only=True, view_name='new-app-project-entries', source='*',

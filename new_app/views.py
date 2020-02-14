@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum, F, Value, IntegerField
 from django.db.models.functions import Coalesce
 from rest_framework import mixins
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 
 from new_app.models import Project, TimeEntry
@@ -13,7 +13,8 @@ from new_app.serializers import ProjectSerializer, UserSerializer, UserOfProject
 
 class ProjectViewSet(ModelViewSet):
     serializer_class = ProjectSerializer
-    queryset = Project.objects.annotate(worked_time=Coalesce(Sum('timeentry__duration'), timedelta())).all()
+    queryset = Project.objects.annotate(worked_time=Coalesce(Sum('timeentry__duration'), timedelta())).order_by(
+        'id').all()
 
 
 class ProjectUsersListView(ListAPIView):
@@ -43,7 +44,7 @@ class UserProjects(ListAPIView):
             project=F('id')).distinct()
 
 
-class TimeEntriesListView(ListAPIView):
+class TimeEntriesListView(ListCreateAPIView):
     queryset = TimeEntry.objects.all()
     serializer_class = TimeEntrySerializer
 
