@@ -37,8 +37,8 @@ class Command(BaseCommand):
 
         User.objects.all().delete()
         users = []
-        for i in range(5):
-            users.append(User.objects.create_user(username=f'user{i + 1}'))
+        for i in range(1, 6):
+            users.append(User.objects.create_user(username=f'user{i}', email=f'user{i}@users.com', password=f'user{i}'))
 
         TimeEntry.objects.create(start_time=random_date(), duration=random_timedelta(), user=users[0],
                                  project=projects[0])
@@ -76,3 +76,5 @@ class Command(BaseCommand):
                                  project=projects[1])
         TimeEntry.objects.create(start_time=random_date(), duration=random_timedelta(), user=users[2],
                                  project=projects[1])
+
+        User.objects.create_superuser('admin', 'admin@users.com', 'admin', is_active=True)

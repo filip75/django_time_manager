@@ -4,16 +4,19 @@ services:
   db:
     image: postgres
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    env_file:
+      - ./postgres.env
 
   web:
     build: .
-    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py seed_db && python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py runserver 0.0.0.0:8000"
     container_name: projects
     env_file:
       - ./django.env
+      - ./postgres.env
     volumes:
       - .:/code
     ports:
@@ -32,3 +35,6 @@ services:
 #      - ./time-manager:/app
 #    environment:
 #      - NODE_ENV=development
+
+volumes:
+  postgres-data:

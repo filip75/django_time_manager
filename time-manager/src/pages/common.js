@@ -1,4 +1,4 @@
-import React, {Component, ReactPropTypes as PropTypes} from 'react';
+import React, {Component} from 'react';
 
 const range = (start, stop) => {
     return [...Array(stop - start).keys()].map(v => v + start)
@@ -23,7 +23,7 @@ class MyPagination extends Component {
                     </li>
 
                     {pagesBefore.map(page =>
-                        <li className={page > 0 ? 'page-item' : 'page-item disabled'}>
+                        <li className={page > 0 ? 'page-item' : 'page-item disabled'} key={page}>
                             <span className="page-link" onClick={() => callback(page)}>{page > 0 ? page : ''}</span>
                         </li>
                     )}
@@ -33,7 +33,7 @@ class MyPagination extends Component {
                     </li>
 
                     {pagesAfter.map(page =>
-                        <li className={page <= totalPages ? 'page-item' : 'page-item disabled'}>
+                        <li className={page <= totalPages ? 'page-item' : 'page-item disabled'} key={page}>
                             <span className="page-link"
                                   onClick={() => callback(page)}>{page <= totalPages ? page : ''}</span>
                         </li>

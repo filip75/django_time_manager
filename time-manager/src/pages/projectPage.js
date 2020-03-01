@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom'
-import {MyPagination} from "./common";
 
 
 class UserTable extends Component {

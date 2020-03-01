@@ -36,6 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
     'django_filters',
     'corsheaders',
     'silk',
@@ -43,6 +49,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django_test.middlewares.sleep_middleware',
     'corsheaders.middleware.CorsMiddleware',
     'silk.middleware.SilkyMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -55,8 +62,11 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 30
+    'DEFAULT_PAGINATION_CLASS': 'new_app.pagination.PageNumberPaginationTotal',
+    'PAGE_SIZE': 30,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
 }
 
 ROOT_URLCONF = 'django_test.urls'
@@ -85,9 +95,10 @@ WSGI_APPLICATION = 'django_test.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'db',
+        'NAME': os.environ.get('POSTGRES_DB'),
+        'USER': os.environ.get('POSTGRES_USER'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
+        'HOST': os.environ.get('DJANGO_DB_HOST', '127.0.0.1'),
         'PORT': 5432
     }
     # 'default': {
@@ -134,3 +145,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = r'C:\Users\Filip\PycharmProjects\django_test\static'
 
 CORS_ORIGIN_WHITELIST = ['http://localhost:3000']
+
+SITE_ID = 1
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
