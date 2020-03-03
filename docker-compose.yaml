@@ -12,7 +12,7 @@ services:
 
   web:
     build: .
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py collectstatic --no-input --clear && python manage.py runserver 0.0.0.0:8000"
     container_name: projects
     env_file:
       - ./django.env

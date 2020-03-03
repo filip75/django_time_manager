@@ -1,0 +1,29 @@
+FROM python:3.8 as builder
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+WORKDIR /code
+
+COPY ./requirements.txt .
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /code/wheels -r requirements.txt
+
+
+FROM python:3.8
+
+RUN useradd -ms /bin/bash django
+
+WORKDIR /code
+RUN mkdir /code/staticfiles
+COPY --from=builder /code/wheels /wheels
+COPY --from=builder /code/requirements.txt .
+COPY ./wait-for-it.sh .
+
+RUN pip install --upgrade pip
+RUN pip install --no-cache /wheels/*
+
+RUN chown -R django /code
+
+USER django
+
+ENTRYPOINT ["/code/wait-for-it.sh", "db:5432", "--"]
