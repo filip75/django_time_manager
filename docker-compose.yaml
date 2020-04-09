@@ -19,10 +19,22 @@ services:
       - ./postgres.env
     volumes:
       - .:/code
-    ports:
-      - "8000:8000"
+      - static_volume:/code/staticfiles
+    expose:
+      - "8000"
     depends_on:
       - db
+
+  nginx:
+    build: ./nginx
+    depends_on:
+      - web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - static_volume:/code/staticfiles
+      - ./certs:/etc/nginx/certs
 
 #  front-react:
 #    container_name: front-react
@@ -38,3 +50,4 @@ services:
 
 volumes:
   postgres-data:
+  static_volume:

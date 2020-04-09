@@ -24,7 +24,7 @@ export const shouldFetch = page => (dispatch, getState) => {
     dispatch(setPage(page));
     if (!('pages' in state.projects) || !(page in state.projects.pages)) {
         dispatch(requestPage(page));
-        return fetch(`http://192.168.99.100:8000/projects/?page=${page}`)
+        return fetch(`https://mysite478474.com/projects/?page=${page}`)
             .then(response => response.json())
             .then(json => dispatch(receivePage(json, page)))
     }

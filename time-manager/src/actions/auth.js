@@ -44,7 +44,7 @@ export const logout = () => {
 export const authLogin = (username, password, redirect) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('http://192.168.99.100:8000/rest-auth/login/', {username, password})
+        axios.post('https://mysite478474.com/rest-auth/login/', {username, password})
             .then(res => {
                 const token = res.data.key;
                 localStorage.setItem('token', token);
@@ -60,7 +60,7 @@ export const authLogin = (username, password, redirect) => {
 export const authRegister = (username, email, password1, password2) => {
     return dispatch => {
         dispatch(authStart());
-        axios.post('http://192.168.99.100:8000/rest-auth/registration/',
+        axios.post('https://mysite478474.com/rest-auth/registration/',
             {username, email, password1, password2})
             .then(res => {
                     const token = res.data.key;
